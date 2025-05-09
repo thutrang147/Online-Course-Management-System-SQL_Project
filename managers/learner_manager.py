@@ -96,3 +96,20 @@ def list_all_learners():
         return []
     finally:
         connection.close()
+
+def delete_learner(learner_id):
+    """Delete a learner from the Learners table."""
+    connection = create_connection()
+    if not connection:
+        return False
+    try:
+        with connection.cursor() as cursor:
+            query = "DELETE FROM Learners WHERE LearnerID = %s"
+            cursor.execute(query, (learner_id,))
+            connection.commit()
+            return cursor.rowcount > 0
+    except Error as e:
+        print(f"Error deleting learner: {e}")
+        return False
+    finally:
+        connection.close()

@@ -129,3 +129,58 @@ def list_courses_with_details():
         return []
     finally:
         connection.close()
+
+def delete_course(course_id):
+    """Delete a course from the Courses table."""
+    connection = create_connection()
+    if not connection:
+        return False
+    try:
+        with connection.cursor() as cursor:
+            query = "DELETE FROM Courses WHERE CourseID = %s"
+            cursor.execute(query, (course_id,))
+            connection.commit()
+            return cursor.rowcount > 0
+    except Error as e:
+        print(f"Error deleting course: {e}")
+        return False
+    finally:
+        connection.close()
+
+def list_active_courses():
+    """
+    Retrieves a list of active courses, defined as courses with at least one learner enrolled.
+    For each active course, it returns its ID, Name, and the total number of enrollments.
+    """
+    connection = create_connection()
+    if not connection:
+        return []
+
+    active_courses_data = []
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            # Filter to include only courses that have at least one enrollment (COUNT(E.EnrollmentID) > 0).
+            # The JOIN condition (C.CourseID = E.CourseID) naturally filters out courses with no enrollments
+            # when used with an aggregate function like COUNT() and GROUP BY,
+            # but explicitly adding HAVING COUNT(E.EnrollmentID) > 0 is clearer for "active".
+            query = """
+                SELECT 
+                    C.CourseID, 
+                    C.CourseName, 
+                    COUNT(E.EnrollmentID) AS EnrollmentCount
+                FROM Courses C
+                JOIN Enrollments E ON C.CourseID = E.CourseID
+                GROUP BY C.CourseID, C.CourseName
+                HAVING COUNT(E.EnrollmentID) > 0  -- Ensures at least one enrollment
+                ORDER BY EnrollmentCount DESC, C.CourseName ASC;
+            """
+            cursor.execute(query)
+            active_courses_data = cursor.fetchall()
+            
+    except Error as e:
+        print(f"Error retrieving active courses with enrollment count: {e}")
+        # active_courses_data remains []
+    finally:
+        if connection and connection.is_connected():
+            connection.close()
+    return active_courses_data
