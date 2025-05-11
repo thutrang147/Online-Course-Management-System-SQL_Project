@@ -1,7 +1,7 @@
 # main.py
 # Main application file for the Online Course Management CLI (Role-Based Menu)
 
-import ui_utils as ui
+import utils.ui_utils as ui
 # Import backend manager modules
 from managers import course_manager
 from managers import enrollment_manager

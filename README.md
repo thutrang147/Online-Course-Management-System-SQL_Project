@@ -1,24 +1,12 @@
 # SQL Project: Online Course Management System
 
-This project is designed to manage and interact with an SQL database for an online course platform. It includes utilities for database connection, learner management, and more.
+This project is a command-line application designed to manage an online course platform. It provides functionality for learners, instructors, and administrators to interact with an SQL database.
 
-## Project Structure
+## Features
 
-```
-SQL_Project/
-├── managers/               # Contains modules for managing learners, courses, etc.
-│   ├── __init__.py
-│   ├── learner_manager.py
-│   ├── enrollment_manager.py
-├── tests/                  # Contains test scripts
-│   ├── test_connection.py  # Tests database connection
-├── utils/                  # Utility modules
-│   ├── __init__.py
-│   ├── db_connector.py     # Handles database connections
-├── config.py               # Configuration file for database settings
-├── requirements.txt        # Python dependencies
-├── venv/                   # Virtual environment
-```
+- **Learner Portal**: View enrolled courses, enroll in new courses, and access course content.
+- **Instructor Portal**: Manage assigned courses, lectures, and view learner progress.
+- **Administrator Panel**: Manage learners, instructors, courses, enrollments, and generate reports.
 
 ## Prerequisites
 
@@ -65,28 +53,26 @@ SQL_Project/
    source ~/.zshrc  # Or ~/.bashrc
    ```
 
-6. **Run Tests**
-   Test the database connection:
+6. **Run the Application**
+   Start the application:
    ```bash
-   python -m tests.test_connection
+   python main.py
    ```
 
 ## Usage
 
-- **Database Connection**
-  The `utils/db_connector.py` module provides a `create_connection` function to establish a connection to the database.
-
-- **Learner Management**
-  Use the `managers/learner_manager.py` module to manage learners.
+- **Learner Portal**: View enrolled courses, enroll in new courses, and access course content.
+- **Instructor Portal**: Manage assigned courses, lectures, and view learner progress.
+- **Administrator Panel**: Manage learners, instructors, courses, and enrollments.
 
 ## Troubleshooting
 
-- If you encounter `ModuleNotFoundError`, ensure the project root is added to the `PYTHONPATH`:
+- **ModuleNotFoundError**: Ensure the project root is added to the `PYTHONPATH`:
   ```bash
   export PYTHONPATH=/path/to/SQL_Project:$PYTHONPATH
   ```
 
-- If the database connection fails, verify your database credentials in `config.py` or environment variables.
+- **Database Connection Issues**: Verify your database credentials in `config.py` or environment variables.
 
 ## License
 
