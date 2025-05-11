@@ -80,20 +80,3 @@ def list_all_instructors():
         return []
     finally:
         connection.close()
-
-def delete_instructor(instructor_id):
-    """Delete an instructor from the Instructors table."""
-    connection = create_connection()
-    if not connection:
-        return False
-    try:
-        with connection.cursor() as cursor:
-            query = "DELETE FROM Instructors WHERE InstructorID = %s"
-            cursor.execute(query, (instructor_id,))
-            connection.commit()
-            return cursor.rowcount > 0
-    except Error as e:
-        print(f"Error deleting instructor: {e}")
-        return False
-    finally:
-        connection.close()
